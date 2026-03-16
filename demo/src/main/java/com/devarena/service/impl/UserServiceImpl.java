@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-  
+    @Transactional
     @Override
     public UserResponse createUser(CreateUserRequest request) {
         if (userRepository.existsByEmail(request.getEmail())) {
@@ -58,6 +58,7 @@ public class UserServiceImpl implements UserService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     @Override
     public UserResponse updateUser(Long id, UpdateUserRequest request) {
         User user = userRepository.findById(id)
@@ -71,14 +72,11 @@ public class UserServiceImpl implements UserService {
             user.setCompanyName(request.getCompanyName());
         }
 
-        if (request.getPassword() != null) {
-            user.setPassword(passwordEncoder.encode(request.getPassword()));
-        }
-
         User updatedUser = userRepository.save(user);
         return toResponse(updatedUser);
     }
 
+    @Transactional
     @Override
     public void deleteUser(Long id) {
         if (!userRepository.existsById(id)) {
