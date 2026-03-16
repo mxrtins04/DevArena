@@ -19,6 +19,5 @@ public class UserResponse {
     private String email;
     private UserRole role;
     private String bio;
-    private String companyName;
     private LocalDateTime createdAt;
 }

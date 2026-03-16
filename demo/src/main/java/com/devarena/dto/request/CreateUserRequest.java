@@ -1,5 +1,9 @@
 package com.devarena.dto.request;
 
+import java.time.LocalDateTime;
+
+import org.hibernate.annotations.CreationTimestamp;
+
 import com.devarena.enums.UserRole;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -26,5 +30,6 @@ public class CreateUserRequest {
 
     private String bio;
 
-    private String companyName;
+    @CreationTimestamp
+    private LocalDateTime createdAt;
 }

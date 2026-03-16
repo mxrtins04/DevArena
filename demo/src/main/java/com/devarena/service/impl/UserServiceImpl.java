@@ -8,18 +8,25 @@ import com.devarena.exception.DuplicateResourceException;
 import com.devarena.exception.ResourceNotFoundException;
 import com.devarena.repository.UserRepository;
 import com.devarena.service.UserService;
-import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 @Service
-@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
 
+    public UserServiceImpl(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+  
     @Override
     public UserResponse createUser(CreateUserRequest request) {
         if (userRepository.existsByEmail(request.getEmail())) {
@@ -30,7 +37,8 @@ public class UserServiceImpl implements UserService {
             throw new DuplicateResourceException("Username already exists: " + request.getUsername());
         }
 
-        User user = toEntity(request);
+        String encodedPassword = passwordEncoder.encode(request.getPassword());
+        User user = toEntity(request, encodedPassword);
         User savedUser = userRepository.save(user);
         return toResponse(savedUser);
     }
@@ -64,7 +72,7 @@ public class UserServiceImpl implements UserService {
         }
 
         if (request.getPassword() != null) {
-            user.setPassword(request.getPassword());
+            user.setPassword(passwordEncoder.encode(request.getPassword()));
         }
 
         User updatedUser = userRepository.save(user);
@@ -86,19 +94,17 @@ public class UserServiceImpl implements UserService {
                 .email(user.getEmail())
                 .role(user.getRole())
                 .bio(user.getBio())
-                .companyName(user.getCompanyName())
                 .createdAt(user.getCreatedAt())
                 .build();
     }
 
-    private User toEntity(CreateUserRequest request) {
+    private User toEntity(CreateUserRequest request, String encodedPassword) {
         return User.builder()
                 .username(request.getUsername())
                 .email(request.getEmail())
-                .password(request.getPassword())
+                .passwordHash(encodedPassword)
                 .role(request.getRole())
                 .bio(request.getBio())
-                .companyName(request.getCompanyName())
                 .build();
     }
 }

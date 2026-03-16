@@ -31,8 +31,8 @@ public class User {
     @Column(unique = true, nullable = false)
     private String email;
 
-    @Column(nullable = false)
-    private String password;
+    @Column(name = "password_hash", nullable = false)
+    private String passwordHash;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -40,9 +40,6 @@ public class User {
 
     @Column
     private String bio;
-
-    @Column
-    private String companyName;
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
