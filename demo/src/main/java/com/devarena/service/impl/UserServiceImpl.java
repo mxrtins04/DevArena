@@ -9,7 +9,7 @@ import com.devarena.exception.ResourceNotFoundException;
 import com.devarena.repository.UserRepository;
 import com.devarena.service.UserService;
 
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -46,6 +46,7 @@ public class UserServiceImpl implements UserService {
         return toResponse(savedUser);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public UserResponse getUserById(Long id) {
         User user = userRepository.findById(id)
@@ -53,6 +54,7 @@ public class UserServiceImpl implements UserService {
         return toResponse(user);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Page<UserResponse> getAllUsers(Pageable pageable) {
         Page<User> userPage = userRepository.findAll(pageable);
@@ -69,8 +71,7 @@ public class UserServiceImpl implements UserService {
             user.setBio(request.getBio());
         }
 
-        User updatedUser = userRepository.save(user);
-        return toResponse(updatedUser);
+        return toResponse(user);
     }
 
     @Transactional
@@ -79,7 +80,7 @@ public class UserServiceImpl implements UserService {
         if (!userRepository.existsById(id)) {
             throw new ResourceNotFoundException("User not found with id: " + id);
         }
-        userRepository.deleteById(id);
+        userRepository.deleteById(id).orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
     }
 
     private UserResponse toResponse(User user) {
