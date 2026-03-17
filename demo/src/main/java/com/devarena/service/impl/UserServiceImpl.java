@@ -55,6 +55,14 @@ public class UserServiceImpl implements UserService {
 
     @Transactional(readOnly = true)
     @Override
+    public UserResponse getUserByUsername(String username){
+        User user = userRepository.findByUsername(username)
+                    .orElseThrow(() -> new ResourceNotFoundException("User with username" + username + " not found!"));
+        return toResponse(user);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
     public Page<UserResponse> getAllUsers(Pageable pageable) {
         Page<User> userPage = userRepository.findAll(pageable);
         return userPage.map(this::toResponse);
