@@ -1,8 +1,5 @@
 package com.devarena.dto.request;
 
-import java.time.LocalDateTime;
-
-import org.hibernate.annotations.CreationTimestamp;
 
 import com.devarena.enums.UserRole;
 import jakarta.validation.constraints.Email;
@@ -29,7 +26,4 @@ public class CreateUserRequest {
     private UserRole role;
 
     private String bio;
-
-    @CreationTimestamp
-    private LocalDateTime createdAt;
 }
