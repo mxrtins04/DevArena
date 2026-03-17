@@ -8,12 +8,15 @@ import com.devarena.exception.DuplicateResourceException;
 import com.devarena.exception.ResourceNotFoundException;
 import com.devarena.repository.UserRepository;
 import com.devarena.service.UserService;
+
+import jakarta.transaction.Transactional;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -51,11 +54,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserResponse> getAllUsers() {
-        List<User> users = userRepository.findAll();
-        return users.stream()
-                .map(this::toResponse)
-                .collect(Collectors.toList());
+    public Page<UserResponse> getAllUsers(Pageable pageable) {
+        Page<User> userPage = userRepository.findAll(pageable);
+        return userPage.map(this::toResponse);
     }
 
     @Transactional
@@ -66,10 +67,6 @@ public class UserServiceImpl implements UserService {
 
         if (request.getBio() != null) {
             user.setBio(request.getBio());
-        }
-
-        if (request.getCompanyName() != null) {
-            user.setCompanyName(request.getCompanyName());
         }
 
         User updatedUser = userRepository.save(user);

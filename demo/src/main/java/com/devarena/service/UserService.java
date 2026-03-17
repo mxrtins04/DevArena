@@ -6,13 +6,16 @@ import com.devarena.dto.response.UserResponse;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 public interface UserService {
 
     UserResponse createUser(CreateUserRequest request);
 
     UserResponse getUserById(Long id);
 
-    List<UserResponse> getAllUsers();
+    Page<UserResponse> getAllUsers(Pageable pageable);
 
     UserResponse updateUser(Long id, UpdateUserRequest request);
 
