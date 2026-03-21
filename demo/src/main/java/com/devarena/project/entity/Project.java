@@ -32,7 +32,8 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "projects", indexes = {
-    @Index(name = "")
+    @Index(name = "idx_proejct_owner_id", columnList = "owner_id"),
+    @Index(name = "idx_project_topic", columnList = "topic")
 })
 public class Project {
     @Id
