@@ -1,12 +1,11 @@
-package com.devarena.service;
-
-import com.devarena.dto.request.CreateUserRequest;
-import com.devarena.dto.request.UpdateUserRequest;
-import com.devarena.dto.response.UserResponse;
-
+package com.devarena.User.service;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
+import com.devarena.User.dto.request.CreateUserRequest;
+import com.devarena.User.dto.request.UpdateUserRequest;
+import com.devarena.User.dto.response.UserResponse;
 
 public interface UserService {
 

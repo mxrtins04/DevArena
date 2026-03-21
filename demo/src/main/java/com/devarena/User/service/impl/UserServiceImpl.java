@@ -1,13 +1,13 @@
-package com.devarena.service.impl;
+package com.devarena.User.service.impl;
 
-import com.devarena.dto.request.CreateUserRequest;
-import com.devarena.dto.request.UpdateUserRequest;
-import com.devarena.dto.response.UserResponse;
-import com.devarena.entity.User;
+import com.devarena.User.dto.request.CreateUserRequest;
+import com.devarena.User.dto.request.UpdateUserRequest;
+import com.devarena.User.dto.response.UserResponse;
+import com.devarena.User.entity.User;
+import com.devarena.User.repository.UserRepository;
+import com.devarena.User.service.UserService;
 import com.devarena.exception.DuplicateResourceException;
 import com.devarena.exception.ResourceNotFoundException;
-import com.devarena.repository.UserRepository;
-import com.devarena.service.UserService;
 
 import org.springframework.transaction.annotation.Transactional;
 

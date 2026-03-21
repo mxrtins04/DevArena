@@ -1,12 +1,13 @@
-package com.devarena.dto.response;
+package com.devarena.User.dto.response;
 
-import com.devarena.enums.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+
+import com.devarena.User.enums.UserRole;
 
 @Data
 @Builder

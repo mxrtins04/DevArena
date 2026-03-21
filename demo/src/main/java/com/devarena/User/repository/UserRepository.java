@@ -1,8 +1,9 @@
-package com.devarena.repository;
+package com.devarena.User.repository;
 
-import com.devarena.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
+import com.devarena.User.entity.User;
 
 import java.util.Optional;
 

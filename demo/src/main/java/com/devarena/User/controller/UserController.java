@@ -1,9 +1,10 @@
-package com.devarena.controller;
+package com.devarena.User.controller;
 
-import com.devarena.dto.request.CreateUserRequest;
-import com.devarena.dto.request.UpdateUserRequest;
-import com.devarena.dto.response.UserResponse;
-import com.devarena.service.UserService;
+import com.devarena.User.dto.request.CreateUserRequest;
+import com.devarena.User.dto.request.UpdateUserRequest;
+import com.devarena.User.dto.response.UserResponse;
+import com.devarena.User.service.UserService;
+
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

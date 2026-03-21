@@ -1,7 +1,8 @@
-package com.devarena.dto.request;
+package com.devarena.User.dto.request;
 
 
-import com.devarena.enums.UserRole;
+import com.devarena.User.enums.UserRole;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
