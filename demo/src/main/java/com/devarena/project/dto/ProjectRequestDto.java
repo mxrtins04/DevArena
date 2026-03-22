@@ -14,8 +14,6 @@ import lombok.Setter;
 @Builder
 
 public class ProjectRequestDto {
-    @NotBlank(message = "Input owner's id")
-    private Long ownerId;
 
     @NotBlank
     private String title;
