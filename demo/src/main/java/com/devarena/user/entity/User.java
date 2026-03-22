@@ -1,4 +1,4 @@
-package com.devarena.User.entity;
+package com.devarena.user.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -9,7 +9,7 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import com.devarena.User.enums.UserRole;
+import com.devarena.user.enums.UserRole;
 
 import java.time.LocalDateTime;
 

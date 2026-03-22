@@ -1,4 +1,4 @@
-package com.devarena.User.dto.response;
+package com.devarena.user.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-import com.devarena.User.enums.UserRole;
+import com.devarena.user.enums.UserRole;
 
 @Data
 @Builder

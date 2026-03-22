@@ -1,4 +1,4 @@
-package com.devarena.User.enums;
+package com.devarena.user.enums;
 
 public enum UserRole {
     DEVELOPER,

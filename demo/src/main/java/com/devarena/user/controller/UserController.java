@@ -1,15 +1,15 @@
-package com.devarena.User.controller;
-
-import com.devarena.User.dto.request.CreateUserRequest;
-import com.devarena.User.dto.request.UpdateUserRequest;
-import com.devarena.User.dto.response.UserResponse;
-import com.devarena.User.service.UserService;
+package com.devarena.user.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import com.devarena.user.dto.request.CreateUserRequest;
+import com.devarena.user.dto.request.UpdateUserRequest;
+import com.devarena.user.dto.response.UserResponse;
+import com.devarena.user.service.UserService;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

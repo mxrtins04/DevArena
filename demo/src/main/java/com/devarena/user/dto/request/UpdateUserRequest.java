@@ -1,4 +1,4 @@
-package com.devarena.User.dto.request;
+package com.devarena.user.dto.request;
 
 import lombok.Data;
 
