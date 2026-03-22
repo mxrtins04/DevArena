@@ -9,18 +9,20 @@ import java.util.stream.Collectors;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
 import com.devarena.exception.ResourceNotFoundException;
 import com.devarena.project.dto.ProjectRequestDto;
 import com.devarena.project.dto.ProjectResponseDto;
 import com.devarena.project.entity.Project;
 
-public class ProjectServiceImpl implements Projectservice {
+@Service
+public class ProjectServiceImpl implements ProjectService {
 
     private final UserRepository userRepo;
     private final ProjectRepository projectRepo;
 
-    ProjectServiceImpl(UserRepository userRepo, ProjectRepository projectRepo) {
+    public ProjectServiceImpl(UserRepository userRepo, ProjectRepository projectRepo) {
         this.userRepo = userRepo;
         this.projectRepo = projectRepo;
     }
@@ -46,15 +48,15 @@ public class ProjectServiceImpl implements Projectservice {
         return mapToResponse(savedProject);
     }
 
+    @Override
     public ProjectResponseDto getProjectById(Long projectId) {
         Project project = projectRepo.findProjectWithOwner(projectId)
                 .orElseThrow(() -> new ResourceNotFoundException("No project found with id " + projectId));
         return mapToResponse(project);
     }
 
+    @Override
     public List<ProjectResponseDto> getProjectByOwner(Long ownerId) {
-        if (projectRepo.findByOwnerId(ownerId) == null)
-            throw new ResourceNotFoundException(null);
         List<Project> projects = projectRepo.findByOwnerId(ownerId);
         return projects.stream()
                 .map(this::mapToResponse)
@@ -83,9 +85,12 @@ public class ProjectServiceImpl implements Projectservice {
         return ProjectResponseDto.builder()
                 .projectId(project.getProjectId())
                 .ownerId(project.getOwner().getId())
+                .ownerUsername(project.getOwner().getUsername())
                 .title(project.getTitle())
                 .topic(project.getTopic())
                 .description(project.getDescription())
+                .repoUrl(project.getRepoUrl())
+                .voteCount(project.getVoteCount())
                 .createdAt(project.getCreatedAt())
                 .build();
     }

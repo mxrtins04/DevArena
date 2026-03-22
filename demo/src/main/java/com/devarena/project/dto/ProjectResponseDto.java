@@ -16,8 +16,11 @@ import lombok.Setter;
 public class ProjectResponseDto {
     private Long projectId;
     private Long ownerId;
+    private String ownerUsername;
     private String title;
     private String topic;
     private String description;
+    private String repoUrl;
+    private Integer voteCount;
     private LocalDateTime createdAt;
 }
