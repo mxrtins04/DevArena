@@ -22,6 +22,6 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
 
     @Query("SELECT p FROM Project p WHERE p.id = :projectId")
     @EntityGraph(attributePaths = {"owner"})
-    Optional<Project> findProjectsWithOwner(@Param("projectId") Long projectId);
+    Optional<Project> findProjectWithOwner(@Param("projectId") Long projectId);
 
 }
