@@ -1,4 +1,4 @@
-package com.devarena.project.dto;
+package com.devarena.project.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;

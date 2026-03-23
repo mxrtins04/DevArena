@@ -12,8 +12,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.devarena.exception.ResourceNotFoundException;
-import com.devarena.project.dto.ProjectRequestDto;
-import com.devarena.project.dto.ProjectResponseDto;
+import com.devarena.project.dto.request.ProjectRequestDto;
+import com.devarena.project.dto.response.ProjectResponseDto;
 import com.devarena.project.entity.Project;
 
 @Service

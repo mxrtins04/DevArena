@@ -1,4 +1,4 @@
-package com.devarena.project.dto;
+package com.devarena.project.dto.response;
 
 import java.time.LocalDateTime;
 

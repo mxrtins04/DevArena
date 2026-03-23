@@ -2,8 +2,8 @@ package com.devarena.project.service;
 
 import java.util.List;
 
-import com.devarena.project.dto.ProjectRequestDto;
-import com.devarena.project.dto.ProjectResponseDto;
+import com.devarena.project.dto.request.ProjectRequestDto;
+import com.devarena.project.dto.response.ProjectResponseDto;
 
 public interface Projectservice {
     public ProjectResponseDto createProject(ProjectRequestDto request);
