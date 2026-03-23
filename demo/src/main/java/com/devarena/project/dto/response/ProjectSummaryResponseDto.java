@@ -11,7 +11,7 @@ import lombok.Setter;
 @Builder
 
 
-public class ProjectSummaryRequestDto {
+public class ProjectSummaryResponseDto {
     private Long id;
     private String title;
     private String topic;

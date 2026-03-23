@@ -9,15 +9,22 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import com.devarena.project.dto.response.ProjectSummaryResponseDto;
 import com.devarena.project.entity.Project;
 
 public interface ProjectRepository extends JpaRepository<Project, Long> {
 
-    List<Project> findByOwnerId(Long ownerId);
+    @Query("SELECT new com.devArena.project.dto.response.ProjectSummaryResponseDto(p.id, p.title, p.topic, p.ownerUsernam)"
+    + "FROM Project p WHERE p.owner.id = :ownerid")
+    List<Project> findByOwnerId(@Param("ownerId") Long ownerId);
 
-    List<Project> findByTopic(String topic, Pageable pageable);
+    @Query("SELECT new com.devArena.project.dto.response" +
+    ".ProjectSummaryResponseDto(p.id, p.title, p.topic, p.ownerUsername)"
+    + "FROM Project p WHERE p.topic = :topic")
+    List<ProjectSummaryResponseDto> findByTopic(String topic, Pageable pageable);
 
-    @Query("SELECT p FROM PROJECT p WHERE LOWER(p.title) LIKE LOWER(CONCAT('%', keyword, '%'))")
+    @Query("SELECT new com.devArena.project.dto.response.ProjectSummaryResponseDto(p.id, p.title, p.topic, p.ownerUsername)"
+    + "FROM Project p WHERE LOWER(p.title) LIKE LOWER(CONCAT('%', :keyword, '%'))")
     List<Project> searchByTitleContaining(@Param("keyword") String keyword);
 
     @EntityGraph(attributePaths = {"owner"})
