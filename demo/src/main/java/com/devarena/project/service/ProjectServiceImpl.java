@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.devarena.exception.ResourceNotFoundException;
 import com.devarena.project.dto.request.ProjectRequestDto;
 import com.devarena.project.dto.response.ProjectResponseDto;
+import com.devarena.project.dto.response.ProjectSummaryResponseDto;
 import com.devarena.project.entity.Project;
 
 @Service
@@ -28,8 +29,8 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public ProjectResponseDto createProject(ProjectRequestDto request) {
-        Long ownerId = request.getOwnerId();
+    public ProjectResponseDto createProject(Long ownersId, ProjectRequestDto request) {
+        Long ownerId = ownersId;
         User owner = userRepo.findById(ownerId)
                 .orElseThrow(() -> new ResourceNotFoundException("Owner with user id: " + ownerId + " not found"));
 
@@ -56,29 +57,23 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public List<ProjectResponseDto> getProjectByOwner(Long ownerId) {
-        List<Project> projects = projectRepo.findByOwnerId(ownerId);
-        return projects.stream()
-                .map(this::mapToResponse)
-                .collect(Collectors.toList());
+    public List<ProjectSummaryResponseDto> getProjectByOwner(Long ownerId) {
+        List<ProjectSummaryResponseDto> projects = projectRepo.findByOwnerId(ownerId);
+        return projects;
     }
 
     @Override
-    public List<ProjectResponseDto> getProjectsByTopic(String topic, int page, int size) {
+    public List<ProjectSummaryResponseDto> getProjectsByTopic(String topic, int page, int size) {
         Pageable pageable = PageRequest.of(page, size,
                 org.springframework.data.domain.Sort.by("createdAt").descending());
-        List<Project> projectPage = projectRepo.findByTopic(topic, pageable);
-        return projectPage.stream()
-                .map(this::mapToResponse)
-                .collect(Collectors.toList());
+        List<ProjectSummaryResponseDto> projectPage = projectRepo.findByTopic(topic, pageable);
+        return projectPage;
     }
 
     @Override
-    public List<ProjectResponseDto> searchProjects(String keyword) {
-        List<Project> projects = projectRepo.searchByTitleContaining(keyword);
-        return projects.stream()
-                .map(this::mapToResponse)
-                .collect(Collectors.toList());
+    public List<ProjectSummaryResponseDto> searchProjects(String keyword) {
+        List<ProjectSummaryResponseDto> projects = projectRepo.searchByTitleContaining(keyword);
+        return projects;
     }
 
     private ProjectResponseDto mapToResponse(Project project) {
@@ -94,4 +89,6 @@ public class ProjectServiceImpl implements ProjectService {
                 .createdAt(project.getCreatedAt())
                 .build();
     }
+
+    
 }
