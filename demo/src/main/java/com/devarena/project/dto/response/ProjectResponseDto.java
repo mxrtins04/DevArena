@@ -15,7 +15,6 @@ import lombok.Setter;
 @Builder
 public class ProjectResponseDto {
     private Long projectId;
-    private Long ownerId;
     private String ownerUsername;
     private String title;
     private String topic;

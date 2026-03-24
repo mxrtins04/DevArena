@@ -5,8 +5,6 @@ import com.devarena.user.enums.UserRole;
 import com.devarena.user.repository.UserRepository;
 import com.devarena.project.repository.ProjectRepository;
 import java.util.List;
-import java.util.stream.Collectors;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -79,7 +77,6 @@ public class ProjectServiceImpl implements ProjectService {
     private ProjectResponseDto mapToResponse(Project project) {
         return ProjectResponseDto.builder()
                 .projectId(project.getProjectId())
-                .ownerId(project.getOwner().getId())
                 .ownerUsername(project.getOwner().getUsername())
                 .title(project.getTitle())
                 .topic(project.getTopic())
