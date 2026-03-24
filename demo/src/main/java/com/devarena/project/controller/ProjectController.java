@@ -54,5 +54,10 @@ public class ProjectController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<ProjectSummaryResponseDto>> getMethodName(@RequestParam String keyword) {
+        List<ProjectSummaryResponseDto> response = projectService.searchProjects(keyword);
+        return ResponseEntity.ok(response);
+    }
     
 }
