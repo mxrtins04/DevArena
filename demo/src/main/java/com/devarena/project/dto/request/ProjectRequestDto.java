@@ -16,6 +16,8 @@ import lombok.Setter;
 public class ProjectRequestDto {
 
     @NotBlank
+    private Long ownerId;
+    @NotBlank
     private String title;
 
     @NotBlank

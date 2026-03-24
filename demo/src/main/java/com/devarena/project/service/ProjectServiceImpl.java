@@ -29,8 +29,8 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public ProjectResponseDto createProject(Long ownersId, ProjectRequestDto request) {
-        Long ownerId = ownersId;
+    public ProjectResponseDto createProject(ProjectRequestDto request) {
+        Long ownerId = request.getOwnerId();
         User owner = userRepo.findById(ownerId)
                 .orElseThrow(() -> new ResourceNotFoundException("Owner with user id: " + ownerId + " not found"));
 

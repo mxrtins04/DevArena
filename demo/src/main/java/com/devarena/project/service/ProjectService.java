@@ -7,7 +7,7 @@ import com.devarena.project.dto.response.ProjectResponseDto;
 import com.devarena.project.dto.response.ProjectSummaryResponseDto;
 
 public interface ProjectService {
-    public ProjectResponseDto createProject(Long ownersId, ProjectRequestDto request);
+    public ProjectResponseDto createProject(ProjectRequestDto request);
     public ProjectResponseDto getProjectById(Long projectId);
     public List<ProjectSummaryResponseDto> getProjectByOwner(Long ownerId);
     public List<ProjectSummaryResponseDto> getProjectsByTopic(String topic, int page, int size);

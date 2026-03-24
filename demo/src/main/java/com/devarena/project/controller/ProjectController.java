@@ -29,8 +29,8 @@ public class ProjectController {
     private final ProjectService projectService;
 
     @PostMapping
-    public ResponseEntity<ProjectResponseDto> createProject(@RequestParam Long ownerId, @RequestBody @Valid ProjectRequestDto request) {
-        ProjectResponseDto response = projectService.createProject(ownerId, request);
+    public ResponseEntity<ProjectResponseDto> createProject(@RequestBody @Valid ProjectRequestDto request) {
+        ProjectResponseDto response = projectService.createProject(request);
         
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
