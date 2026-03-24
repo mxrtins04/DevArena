@@ -9,6 +9,7 @@ import com.devarena.project.dto.response.ProjectSummaryResponseDto;
 import com.devarena.project.service.ProjectService;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
@@ -21,26 +22,26 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
-
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/project")
 public class ProjectController {
     private final ProjectService projectService;
 
     @PostMapping
-    public ResponseEntity<ProjectResponseDto> CreateProject(@RequestParam Long ownerId, @RequestBody @Valid ProjectRequestDto request) {
+    public ResponseEntity<ProjectResponseDto> createProject(@RequestParam Long ownerId, @RequestBody @Valid ProjectRequestDto request) {
         ProjectResponseDto response = projectService.createProject(ownerId, request);
         
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
     
-    @GetMapping("{/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<ProjectResponseDto> getProjectById(@PathVariable Long id) {
         ProjectResponseDto response = projectService.getProjectById(id);
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/user/{id}")
+    @GetMapping("/user/{ownerId}")
     public ResponseEntity<List<ProjectSummaryResponseDto>> getAllProjectsFromAUser(@PathVariable Long ownerId){
         List<ProjectSummaryResponseDto>response = projectService.getProjectByOwner(ownerId);
         return ResponseEntity.ok(response);
@@ -55,7 +56,7 @@ public class ProjectController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<ProjectSummaryResponseDto>> getMethodName(@RequestParam String keyword) {
+    public ResponseEntity<List<ProjectSummaryResponseDto>> searchProjects(@RequestParam String keyword) {
         List<ProjectSummaryResponseDto> response = projectService.searchProjects(keyword);
         return ResponseEntity.ok(response);
     }
