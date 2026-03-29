@@ -11,24 +11,31 @@ import org.springframework.data.repository.query.Param;
 
 import com.devarena.project.dto.response.ProjectSummaryResponseDto;
 import com.devarena.project.entity.Project;
+import com.devarena.project.enums.ProjectStatus;
 
 public interface ProjectRepository extends JpaRepository<Project, Long> {
 
     @Query("SELECT new com.devarena.project.dto.response.ProjectSummaryResponseDto(p.id, p.title, p.topic, p.owner.username) "
-    + "FROM Project p WHERE p.owner.id = :ownerId")
+            + "FROM Project p WHERE p.owner.id = :ownerId")
     List<ProjectSummaryResponseDto> findByOwnerId(@Param("ownerId") Long ownerId);
 
     @Query("SELECT new com.devarena.project.dto.response" +
-    ".ProjectSummaryResponseDto(p.id, p.title, p.topic, p.owner.username) "
-    + "FROM Project p WHERE p.topic = :topic")
+            ".ProjectSummaryResponseDto(p.id, p.title, p.topic, p.owner.username) "
+            + "FROM Project p WHERE p.topic = :topic")
     List<ProjectSummaryResponseDto> findByTopic(@Param("topic") String topic, Pageable pageable);
 
     @Query("SELECT new com.devarena.project.dto.response.ProjectSummaryResponseDto(p.id, p.title, p.topic, p.owner.username) "
-    + "FROM Project p WHERE LOWER(p.title) LIKE LOWER(CONCAT('%', :keyword, '%'))")
+            + "FROM Project p WHERE LOWER(p.title) LIKE LOWER(CONCAT('%', :keyword, '%'))")
     List<ProjectSummaryResponseDto> searchByTitleContaining(@Param("keyword") String keyword);
 
     @Query("SELECT p FROM Project p WHERE p.id = :projectId")
-    @EntityGraph(attributePaths = {"owner"})
+    @EntityGraph(attributePaths = { "owner" })
     Optional<Project> findProjectWithOwner(@Param("projectId") Long projectId);
+
+    List<Project> findByOwnerIdAndStatusOrderByCreatedAtDesc(Long ownerId, ProjectStatus status);
+
+    List<Project> findByStatusOrderByVoteCountDesc(ProjectStatus status);
+
+    long countByOwnerId(Long ownerId);
 
 }

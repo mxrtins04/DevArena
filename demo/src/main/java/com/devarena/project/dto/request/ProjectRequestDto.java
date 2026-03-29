@@ -25,4 +25,7 @@ public class ProjectRequestDto {
 
     @NotBlank
     private String description;
+
+    @NotBlank
+    private String repositoryUrl;
 }

@@ -4,6 +4,7 @@ import com.devarena.user.entity.User;
 import com.devarena.user.enums.UserRole;
 import com.devarena.user.repository.UserRepository;
 import com.devarena.project.repository.ProjectRepository;
+import com.devarena.project.enums.ProjectStatus;
 import java.util.List;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -40,7 +41,8 @@ public class ProjectServiceImpl implements ProjectService {
                 .owner(owner)
                 .title(request.getTitle())
                 .description(request.getDescription())
-                .topic(request.getTopic())
+                .repositoryUrl(request.getRepositoryUrl())
+                .status(ProjectStatus.DRAFT)
                 .build();
 
         Project savedProject = projectRepo.save(project);
@@ -76,16 +78,15 @@ public class ProjectServiceImpl implements ProjectService {
 
     private ProjectResponseDto mapToResponse(Project project) {
         return ProjectResponseDto.builder()
-                .projectId(project.getProjectId())
+                .projectId(project.getId())
                 .ownerUsername(project.getOwner().getUsername())
                 .title(project.getTitle())
-                .topic(project.getTopic())
                 .description(project.getDescription())
-                .repoUrl(project.getRepoUrl())
+                .repositoryUrl(project.getRepositoryUrl())
                 .voteCount(project.getVoteCount())
+                .status(project.getStatus())
                 .createdAt(project.getCreatedAt())
                 .build();
     }
 
-    
 }
