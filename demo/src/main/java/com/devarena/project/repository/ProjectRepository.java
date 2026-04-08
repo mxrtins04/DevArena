@@ -29,7 +29,7 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
 
     @Transactional
     @Query("update Project p set p.voteCount = 1 + p.voteCount where p.id = :uuid")
-    @Modifying
+    @Modifying(clearAutomatically = true)
     void incrementVoteCount(@Param("uuid") Long projectId);
 
     @Query("SELECT new com.devarena.project.dto.response.ProjectSummaryResponseDto(p.id, p.title, p.topic, p.owner.username) "
