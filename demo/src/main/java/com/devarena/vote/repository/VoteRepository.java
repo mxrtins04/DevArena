@@ -11,12 +11,12 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface VoteRepository extends JpaRepository<Vote, Long>{
+public interface VoteRepository extends JpaRepository<Vote, UUID>{
     Boolean existsByVoterIdAndProjectId(UUID voterId, UUID projectId);
 
     Optional<Vote> findByVoterIdAndProjectId(UUID voterId, UUID projectId);
 
-    //@Query("select id from Vote where projectId = :projectId")
+    //@Query("select p.id from Vote where projectId = :projectId")
     List<Vote> findByProjectId(UUID projectId); 
 
 }

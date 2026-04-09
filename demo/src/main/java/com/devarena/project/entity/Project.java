@@ -22,25 +22,28 @@ import java.util.UUID;
         @Index(name = "idx_project_status", columnList = "status")
 })
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class Project {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @Setter
     @Column(nullable = false, length = 100)
     private String title;
 
+    @Setter
     @Column(nullable = false, length = 2000)
     private String description;
 
+    @Setter
     @Column(name = "repository_url", length = 255)
     private String repositoryUrl;
 
+    @Setter
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id", nullable = false)
     private User owner;
@@ -49,12 +52,13 @@ public class Project {
     @Builder.Default
     private Integer voteCount = 0;
 
+    @Setter
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private ProjectStatus status;
 
     @OneToMany(mappedBy = "project", fetch = FetchType.LAZY)
-    private List<Vote> votes;
+    private List<Vote> votes = new java.util.ArrayList<>();
 
     @Version
     private Long version;

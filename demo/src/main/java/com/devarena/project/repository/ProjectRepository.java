@@ -14,7 +14,7 @@ import com.devarena.project.dto.response.ProjectSummaryResponseDto;
 import com.devarena.project.entity.Project;
 import com.devarena.project.enums.ProjectStatus;
 
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.UUID;
 
 public interface ProjectRepository extends JpaRepository<Project, UUID> {
@@ -31,11 +31,11 @@ public interface ProjectRepository extends JpaRepository<Project, UUID> {
     @Transactional
     @Query("update Project p set p.voteCount = 1 + p.voteCount where p.id = :uuid")
     @Modifying(clearAutomatically = true)
-    void incrementVoteCount(@Param("uuid") UUID projectId);
+    int incrementVoteCount(@Param("uuid") UUID projectId);
 
-    @Transactional
-    @Query("select voteCount from Project p where p.id = :uuid")
-    Integer getVoteCountFromProjectId(@Param("uuid") UUID projectId);
+    @Transactional(readOnly = true)
+    @Query("select p.voteCount from Project p where p.id = :uuid")
+    int getVoteCountFromProjectId(@Param("uuid") UUID projectId);
 
     @Query("SELECT new com.devarena.project.dto.response.ProjectSummaryResponseDto(p.id, p.title, p.topic, p.owner.username) "
             + "FROM Project p WHERE LOWER(p.title) LIKE LOWER(CONCAT('%', :keyword, '%'))")
