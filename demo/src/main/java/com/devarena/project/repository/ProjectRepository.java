@@ -15,12 +15,13 @@ import com.devarena.project.entity.Project;
 import com.devarena.project.enums.ProjectStatus;
 
 import jakarta.transaction.Transactional;
+import java.util.UUID;
 
-public interface ProjectRepository extends JpaRepository<Project, Long> {
+public interface ProjectRepository extends JpaRepository<Project, UUID> {
 
     @Query("SELECT new com.devarena.project.dto.response.ProjectSummaryResponseDto(p.id, p.title, p.topic, p.owner.username) "
             + "FROM Project p WHERE p.owner.id = :ownerId")
-    List<ProjectSummaryResponseDto> findByOwnerId(@Param("ownerId") Long ownerId);
+    List<ProjectSummaryResponseDto> findByOwnerId(@Param("ownerId") UUID ownerId);
 
     @Query("SELECT new com.devarena.project.dto.response" +
             ".ProjectSummaryResponseDto(p.id, p.title, p.topic, p.owner.username) "
@@ -30,7 +31,7 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
     @Transactional
     @Query("update Project p set p.voteCount = 1 + p.voteCount where p.id = :uuid")
     @Modifying(clearAutomatically = true)
-    void incrementVoteCount(@Param("uuid") Long projectId);
+    void incrementVoteCount(@Param("uuid") UUID projectId);
 
     @Query("SELECT new com.devarena.project.dto.response.ProjectSummaryResponseDto(p.id, p.title, p.topic, p.owner.username) "
             + "FROM Project p WHERE LOWER(p.title) LIKE LOWER(CONCAT('%', :keyword, '%'))")
@@ -38,12 +39,12 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
 
     @Query("SELECT p FROM Project p WHERE p.id = :projectId")
     @EntityGraph(attributePaths = { "owner" })
-    Optional<Project> findProjectWithOwner(@Param("projectId") Long projectId);
+    Optional<Project> findProjectWithOwner(@Param("projectId") UUID projectId);
 
-    List<Project> findByOwnerIdAndStatusOrderByCreatedAtDesc(Long ownerId, ProjectStatus status);
+    List<Project> findByOwnerIdAndStatusOrderByCreatedAtDesc(UUID ownerId, ProjectStatus status);
 
     List<Project> findByStatusOrderByVoteCountDesc(ProjectStatus status);
 
-    long countByOwnerId(Long ownerId);
+    long countByOwnerId(UUID ownerId);
 
 }
