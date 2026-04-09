@@ -3,11 +3,15 @@ package com.devarena.project.service;
 import com.devarena.user.entity.User;
 import com.devarena.user.enums.UserRole;
 import com.devarena.user.repository.UserRepository;
+
+import jakarta.transaction.Transactional;
+
 import com.devarena.project.repository.ProjectRepository;
 import com.devarena.project.enums.ProjectStatus;
 import java.util.List;
-import org.springframework.data.domain.PageRequest;
+import java.util.UUID;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.devarena.exception.ResourceNotFoundException;
@@ -28,8 +32,9 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public ProjectResponseDto createProject(ProjectRequestDto request) {
-        Long ownerId = request.getOwnerId();
+        UUID ownerId = request.getOwnerId();
         User owner = userRepo.findById(ownerId)
                 .orElseThrow(() -> new ResourceNotFoundException("Owner with user id: " + ownerId + " not found"));
 
@@ -50,14 +55,14 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public ProjectResponseDto getProjectById(Long projectId) {
+    public ProjectResponseDto getProjectById(UUID projectId) {
         Project project = projectRepo.findProjectWithOwner(projectId)
                 .orElseThrow(() -> new ResourceNotFoundException("No project found with id " + projectId));
         return mapToResponse(project);
     }
 
     @Override
-    public List<ProjectSummaryResponseDto> getProjectByOwner(Long ownerId) {
+    public List<ProjectSummaryResponseDto> getProjectByOwner(UUID ownerId) {
         List<ProjectSummaryResponseDto> projects = projectRepo.findByOwnerId(ownerId);
         return projects;
     }

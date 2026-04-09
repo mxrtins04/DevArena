@@ -1,5 +1,7 @@
 package com.devarena.project.dto.request;
 
+import java.util.UUID;
+
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,7 +18,7 @@ import lombok.Setter;
 public class ProjectRequestDto {
 
     @NotBlank
-    private Long ownerId;
+    private UUID ownerId;
     @NotBlank
     private String title;
 

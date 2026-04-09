@@ -12,6 +12,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,13 +37,13 @@ public class ProjectController {
     }
     
     @GetMapping("/{id}")
-    public ResponseEntity<ProjectResponseDto> getProjectById(@PathVariable Long id) {
+    public ResponseEntity<ProjectResponseDto> getProjectById(@PathVariable UUID id) {
         ProjectResponseDto response = projectService.getProjectById(id);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/user/{ownerId}")
-    public ResponseEntity<List<ProjectSummaryResponseDto>> getAllProjectsFromAUser(@PathVariable Long ownerId){
+    public ResponseEntity<List<ProjectSummaryResponseDto>> getAllProjectsFromAUser(@PathVariable UUID ownerId){
         List<ProjectSummaryResponseDto>response = projectService.getProjectByOwner(ownerId);
         return ResponseEntity.ok(response);
     }

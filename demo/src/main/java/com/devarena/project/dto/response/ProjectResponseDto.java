@@ -1,5 +1,7 @@
 package com.devarena.project.dto.response;
 
+import java.util.UUID;
+
 import com.devarena.project.enums.ProjectStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,7 +17,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 public class ProjectResponseDto {
-    private Long projectId;
+    private UUID projectId;
     private String ownerUsername;
     private String title;
     private String description;
