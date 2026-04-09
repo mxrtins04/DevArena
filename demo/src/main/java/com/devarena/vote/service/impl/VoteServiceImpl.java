@@ -15,8 +15,12 @@ import com.devarena.project.repository.ProjectRepository;
 import com.devarena.user.entity.User;
 import com.devarena.user.repository.UserRepository;
 import com.devarena.vote.repository.VoteRepository;
+
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 
+
+@Service
 public class VoteServiceImpl implements VoteService{
     private final UserRepository userRepo;
     private final ProjectRepository projectRepo;
@@ -28,6 +32,7 @@ public class VoteServiceImpl implements VoteService{
         this.voteRepo = voteRepository;
     }
 
+    @Override
     @Transactional(rollbackFor = Exception.class, isolation = Isolation.READ_COMMITTED)
     public VoteResponseDto castVote(UUID votersId, UUID projectId){
         User voter = userRepo.findById(votersId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
@@ -42,17 +47,18 @@ public class VoteServiceImpl implements VoteService{
                 .project(project)
                 .build();
 
-        voteRepo.save(vote);
+        Vote savedVote = voteRepo.save(vote);
         projectRepo.incrementVoteCount(projectId);
-        return toResponseDto(vote);
+        return toResponseDto(savedVote);
 
     }
 
+    @Override
     @Transactional(readOnly = true)
-    public List<VoteResponseDto> getVotesForProject(UUID projectId, UUID voterId) {
-        return voteRepo.findByVoterIdAndProjectId(voterId, projectId).stream()
+    public List<VoteResponseDto> getVotesForProject(UUID projectId) {
+        return voteRepo.findByProjectId(projectId).stream()
             .map(this::toResponseDto)
-            .collect(Collectors.toList());
+            .toList();
     }
 
     private VoteResponseDto toResponseDto(Vote vote) {

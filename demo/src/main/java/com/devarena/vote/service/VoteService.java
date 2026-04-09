@@ -8,6 +8,6 @@ import com.devarena.vote.dto.response.VoteResponseDto;
 public interface VoteService{
     public VoteResponseDto castVote(UUID votersId, UUID projectId);
 
-    public List<VoteResponseDto> getVotesForProject(UUID projectId, UUID voterId);
+    public List<VoteResponseDto> getVotesForProject(UUID projectId);
 
 }

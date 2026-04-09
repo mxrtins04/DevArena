@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    @Transactional
+    @Transactional(rollBackFor = Exception.class)
     @Override
     public UserResponse createUser(CreateUserRequest request) {
         if (userRepository.existsByEmail(request.getEmail())) {
@@ -68,7 +68,7 @@ public class UserServiceImpl implements UserService {
         return userPage.map(this::toResponse);
     }
 
-    @Transactional
+    @Transactional(rollBackFor = Exception.class)
     @Override
     public UserResponse updateUser(Long id, UpdateUserRequest request) {
         User user = userRepository.findById(id)
@@ -81,7 +81,7 @@ public class UserServiceImpl implements UserService {
         return toResponse(user);
     }
 
-    @Transactional
+    @Transactional(rollBackFor = Exception.class)
     @Override
     public void deleteUser(Long id) {
         User user = userRepository.findById(id)

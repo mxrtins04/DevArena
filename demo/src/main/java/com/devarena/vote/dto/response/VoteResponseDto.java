@@ -11,7 +11,7 @@ import lombok.*;
 @Getter
 @AllArgsConstructor
 public class VoteResponseDto {
-    private Long voteId;
+    private UUID voteId;
     
     private UUID votersId;
 

@@ -4,7 +4,7 @@ import com.devarena.user.entity.User;
 import com.devarena.user.enums.UserRole;
 import com.devarena.user.repository.UserRepository;
 
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.devarena.project.repository.ProjectRepository;
 import com.devarena.project.enums.ProjectStatus;
@@ -32,7 +32,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional(rollbackFor= Exception.class)
     public ProjectResponseDto createProject(ProjectRequestDto request) {
         UUID ownerId = request.getOwnerId();
         User owner = userRepo.findById(ownerId)
@@ -55,6 +55,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public ProjectResponseDto getProjectById(UUID projectId) {
         Project project = projectRepo.findProjectWithOwner(projectId)
                 .orElseThrow(() -> new ResourceNotFoundException("No project found with id " + projectId));
@@ -62,23 +63,25 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<ProjectSummaryResponseDto> getProjectByOwner(UUID ownerId) {
-        List<ProjectSummaryResponseDto> projects = projectRepo.findByOwnerId(ownerId);
-        return projects;
+        User owner = userRepo.findById(ownerId)
+                .orElseThrow(() -> new ResourceNotFoundException("Owner with user id: " + ownerId + " not found"));
+        return projectRepo.findByOwnerId(ownerId);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<ProjectSummaryResponseDto> getProjectsByTopic(String topic, int page, int size) {
         Pageable pageable = PageRequest.of(page, size,
                 org.springframework.data.domain.Sort.by("createdAt").descending());
-        List<ProjectSummaryResponseDto> projectPage = projectRepo.findByTopic(topic, pageable);
-        return projectPage;
+        return projectRepo.findByTopic(topic, pageable);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<ProjectSummaryResponseDto> searchProjects(String keyword) {
-        List<ProjectSummaryResponseDto> projects = projectRepo.searchByTitleContaining(keyword);
-        return projects;
+        return projectRepo.searchByTitleContaining(keyword);
     }
 
     private ProjectResponseDto mapToResponse(Project project) {

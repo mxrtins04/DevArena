@@ -33,6 +33,10 @@ public interface ProjectRepository extends JpaRepository<Project, UUID> {
     @Modifying(clearAutomatically = true)
     void incrementVoteCount(@Param("uuid") UUID projectId);
 
+    @Transactional
+    @Query("select voteCount from Project p where p.id = :uuid")
+    Integer getVoteCountFromProjectId(@Param("uuid") UUID projectId);
+
     @Query("SELECT new com.devarena.project.dto.response.ProjectSummaryResponseDto(p.id, p.title, p.topic, p.owner.username) "
             + "FROM Project p WHERE LOWER(p.title) LIKE LOWER(CONCAT('%', :keyword, '%'))")
     List<ProjectSummaryResponseDto> searchByTitleContaining(@Param("keyword") String keyword);
